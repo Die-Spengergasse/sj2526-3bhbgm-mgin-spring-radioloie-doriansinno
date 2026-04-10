@@ -11,17 +11,54 @@ import java.time.LocalDate;
 public class Patient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
-    private String name;
+    // Sozialversicherungsnummer
+    private String svnr;
+
+    private String firstName;
+    private String lastName;
+
+    // Geschlecht (z.B. M/W/D)
+    private String gender;
+
+    // Geburtsdatum
     private LocalDate birth;
 
-    public String getName() {
-        return name;
+    public Integer getId() {
+        return id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getSvnr() {
+        return svnr;
+    }
+
+    public void setSvnr(String svnr) {
+        this.svnr = svnr;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
     public LocalDate getBirth() {
@@ -30,5 +67,12 @@ public class Patient {
 
     public void setBirth(LocalDate birth) {
         this.birth = birth;
+    }
+
+    // Hilfsgetter für Anzeige
+    public String getFullName() {
+        String fn = firstName != null ? firstName : "";
+        String ln = lastName != null ? lastName : "";
+        return (fn + " " + ln).trim();
     }
 }

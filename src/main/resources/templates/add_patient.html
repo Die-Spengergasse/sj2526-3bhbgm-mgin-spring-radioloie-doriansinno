@@ -7,10 +7,37 @@
 </head>
 <body>
     <div class="container">
+        <h2>Neuen Patienten registrieren</h2>
         <form th:action="@{/patient/add}" th:object="${patient}" method="post">
-            <input type="text" th:field="*{name}" class="form-control" placeholder="patient name">
-            birth date <input type="date" th:field="*{birth}" class="form-control">
-            <input type="submit" class="form-control" value="Save">
+            <div class="form-group">
+                <label>Sozialversicherungsnummer</label>
+                <input type="text" th:field="*{svnr}" class="form-control" placeholder="SVNR" required>
+            </div>
+            <div class="form-group">
+                <label>Vorname</label>
+                <input type="text" th:field="*{firstName}" class="form-control" placeholder="Vorname" required>
+            </div>
+            <div class="form-group">
+                <label>Nachname</label>
+                <input type="text" th:field="*{lastName}" class="form-control" placeholder="Nachname" required>
+            </div>
+            <div class="form-group">
+                <label>Geschlecht</label>
+                <select th:field="*{gender}" class="form-control" required>
+                    <option value="">Bitte wählen</option>
+                    <option value="M">Männlich</option>
+                    <option value="W">Weiblich</option>
+                    <option value="D">Divers</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Geburtsdatum</label>
+                <input type="date" th:field="*{birth}" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btn btn-primary" value="Speichern">
+                <a href="/patient/list" class="btn btn-default">Abbrechen</a>
+            </div>
         </form>
     </div>
 </body>
