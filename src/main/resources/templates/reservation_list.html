@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Reservierungen</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <h2>Reservierungen für Gerät</h2>
+    <div class="panel panel-default" th:if="${device}">
+        <div class="panel-heading" th:text="${device.name} + ' - ' + ${device.type}"></div>
+        <div class="panel-body">
+            <p><strong>Standort:</strong> <span th:text="${device.location}"></span></p>
+        </div>
+    </div>
+
+    <p>
+        <a class="btn btn-primary" href="/reservation/add">Neue Reservierung</a>
+        <a class="btn btn-default" href="/device/list">Zur Geräteliste</a>
+    </p>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Datum</th>
+            <th>Start</th>
+            <th>Ende</th>
+            <th>Patient</th>
+            <th>Körperregion</th>
+            <th>Kommentar</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="r : ${reservations}">
+            <td th:text="${#temporals.format(r.startDateTime, 'dd.MM.yyyy')}"></td>
+            <td th:text="${#temporals.format(r.startDateTime, 'HH:mm')}"></td>
+            <td th:text="${#temporals.format(r.endDateTime, 'HH:mm')}"></td>
+            <td th:text="${r.patient.fullName}"></td>
+            <td th:text="${r.bodyRegion}"></td>
+            <td th:text="${r.comment}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

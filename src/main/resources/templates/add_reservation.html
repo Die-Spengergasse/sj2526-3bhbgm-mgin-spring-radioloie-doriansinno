@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Reservierung erfassen</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <h2>Neue Reservierung</h2>
+    <div th:if="${#fields.hasGlobalErrors()}" class="alert alert-danger" th:text="${#fields.globalErrors()[0]}"></div>
+    <form th:action="@{/reservation/add}" th:object="${reservationForm}" method="post">
+        <div class="form-group">
+            <label>Patient</label>
+            <select th:field="*{patientId}" class="form-control" required>
+                <option value="">Bitte wählen</option>
+                <option th:each="p : ${patients}" th:value="${p.id}" th:text="${p.fullName + ' (' + p.svnr + ')'}"></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Gerät</label>
+            <select th:field="*{deviceId}" class="form-control" required>
+                <option value="">Bitte wählen</option>
+                <option th:each="d : ${devices}" th:value="${d.id}" th:text="${d.name + ' - ' + d.type + ' (' + d.location + ')'}"></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Datum</label>
+            <input type="date" th:field="*{date}" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label>Startzeit</label>
+            <input type="time" th:field="*{startTime}" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label>Endzeit</label>
+            <input type="time" th:field="*{endTime}" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label>Körperregion</label>
+            <select th:field="*{bodyRegion}" class="form-control">
+                <option value="">Bitte wählen</option>
+                <option th:each="br : ${bodyRegions}" th:value="${br}" th:text="${br}"></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Kommentar</label>
+            <textarea th:field="*{comment}" class="form-control" rows="3" placeholder="Zusätzliche Hinweise"></textarea>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Speichern</button>
+            <a href="/device/list" class="btn btn-default">Abbrechen</a>
+        </div>
+    </form>
+</div>
+</body>
+</html>

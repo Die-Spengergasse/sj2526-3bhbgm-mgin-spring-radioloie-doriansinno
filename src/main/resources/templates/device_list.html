@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Geräteliste</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <h2>Geräte</h2>
+    <p><a class="btn btn-primary" href="/reservation/add">Reservierung erfassen</a></p>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Bezeichnung</th>
+            <th>Art</th>
+            <th>Standort</th>
+            <th>Reservierungen</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="d : ${devices}">
+            <td th:text="${d.id}"></td>
+            <td th:text="${d.name}"></td>
+            <td th:text="${d.type}"></td>
+            <td th:text="${d.location}"></td>
+            <td>
+                <a th:href="@{'/reservation/list/' + ${d.id}}">Liste anzeigen</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <p><a href="/" class="btn btn-default">Zurück</a></p>
+</div>
+</body>
+</html>
