@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}">Fehler</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <style>
+        .details { white-space: pre-wrap; color: #777; margin-top: 10px; }
+    </style>
+    </head>
+<body>
+<div class="container">
+    <h2 th:text="${title}">Fehler</h2>
+    <div class="alert alert-danger" th:text="${message}">Es ist ein Fehler aufgetreten.</div>
+    <details>
+        <summary>Technische Details</summary>
+        <div class="details" th:text="${details}">-</div>
+    </details>
+    <p style="margin-top:15px;">
+        <a href="/" class="btn btn-default">Zur Startseite</a>
+    </p>
+</div>
+</body>
+</html>

@@ -69,6 +69,32 @@ public class ReservationController {
         LocalDateTime start = LocalDateTime.of(form.getDate(), form.getStartTime());
         LocalDateTime end = LocalDateTime.of(form.getDate(), form.getEndTime());
 
+        // Termin nicht in der Vergangenheit
+        if (start.isBefore(LocalDateTime.now())) {
+            br.reject("past", "Ein Termin in der Vergangenheit darf nicht reserviert werden");
+        }
+
+        // Überschneidungen prüfen
+        if (!br.hasErrors()) {
+            boolean deviceOverlap = reservationRepository.existsOverlapForDevice(form.getDeviceId(), start, end);
+            if (deviceOverlap) {
+                br.reject("overlap_device", "Termine überschneiden sich: Für dieses Gerät existiert bereits eine Reservierung in diesem Zeitraum");
+            }
+        }
+        if (!br.hasErrors()) {
+            boolean patientOverlap = reservationRepository.existsOverlapForPatient(form.getPatientId(), start, end);
+            if (patientOverlap) {
+                br.reject("overlap_patient", "Termine überschneiden sich: Dieser Patient hat bereits eine Reservierung in diesem Zeitraum");
+            }
+        }
+
+        if (br.hasErrors()) {
+            model.addAttribute("patients", patientRepository.findAll());
+            model.addAttribute("devices", deviceRepository.findAll());
+            model.addAttribute("bodyRegions", List.of("Kopf", "Brust", "Abdomen", "Wirbelsäule", "Extremitäten"));
+            return "add_reservation";
+        }
+
         Reservation res = new Reservation();
         res.setPatient(patientOpt.get());
         res.setDevice(deviceOpt.get());

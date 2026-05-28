@@ -8,6 +8,7 @@
 <body>
     <div class="container">
         <h2>Neuen Patienten registrieren</h2>
+        <div th:if="${#fields.hasGlobalErrors()}" class="alert alert-danger" th:text="${#fields.globalErrors()[0]}"></div>
         <form th:action="@{/patient/add}" th:object="${patient}" method="post">
             <div class="form-group">
                 <label>Sozialversicherungsnummer</label>
