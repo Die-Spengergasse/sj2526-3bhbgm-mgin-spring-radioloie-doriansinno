@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.time.format.DateTimeFormatter;
 import org.springframework.validation.BindingResult;
 import java.time.LocalDate;
 
@@ -36,12 +35,10 @@ public class PatientController {
 
     @PostMapping("/add")
     public String addPatient(@ModelAttribute("patient") Patient patient, BindingResult br, Model model) {
-        // Validierung SVNR: 10 Ziffern
         if (patient.getSvnr() == null || !patient.getSvnr().matches("\\d{10}")) {
             br.reject("svnr.invalid", "Ungültige Sozialversicherungsnummer: Es müssen genau 10 Ziffern sein");
         }
 
-        // Geburtsdatum nicht in der Zukunft
         if (patient.getBirth() != null && patient.getBirth().isAfter(LocalDate.now())) {
             br.reject("birth.future", "Geburtsdatum darf nicht in der Zukunft liegen");
         }

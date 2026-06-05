@@ -18,11 +18,7 @@ public class Reservation {
 
     private LocalDateTime startDateTime;
     private LocalDateTime endDateTime;
-
-    // zu untersuchende Körperregion
     private String bodyRegion;
-
-    // Kommentar
     @Column(length = 2000)
     private String comment;
 

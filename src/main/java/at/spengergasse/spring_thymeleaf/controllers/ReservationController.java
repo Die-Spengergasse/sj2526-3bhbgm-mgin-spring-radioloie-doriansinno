@@ -41,7 +41,6 @@ public class ReservationController {
     public String addReservation(@ModelAttribute("reservationForm") ReservationForm form,
                                  BindingResult br,
                                  Model model) {
-        // einfache Validierung
         if (form.getPatientId() == null || form.getDeviceId() == null || form.getDate() == null
                 || form.getStartTime() == null || form.getEndTime() == null) {
             br.reject("invalid", "Bitte alle Pflichtfelder ausfüllen");
@@ -69,12 +68,10 @@ public class ReservationController {
         LocalDateTime start = LocalDateTime.of(form.getDate(), form.getStartTime());
         LocalDateTime end = LocalDateTime.of(form.getDate(), form.getEndTime());
 
-        // Termin nicht in der Vergangenheit
         if (start.isBefore(LocalDateTime.now())) {
             br.reject("past", "Ein Termin in der Vergangenheit darf nicht reserviert werden");
         }
 
-        // Überschneidungen prüfen
         if (!br.hasErrors()) {
             boolean deviceOverlap = reservationRepository.existsOverlapForDevice(form.getDeviceId(), start, end);
             if (deviceOverlap) {
@@ -118,7 +115,6 @@ public class ReservationController {
         return "reservation_list";
     }
 
-    // Einfaches Formular-DTO für Datum/Zeit Eingabe
     public static class ReservationForm {
         private Integer patientId;
         private Integer deviceId;

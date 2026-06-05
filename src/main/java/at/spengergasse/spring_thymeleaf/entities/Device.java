@@ -10,14 +10,8 @@ public class Device {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
-    // Bezeichnung (ID)
     private String name;
-
-    // Art des Gerätes (z.B. MR, CT, Röntgen, ...)
     private String type;
-
-    // Standort (Raumnummer)
     private String location;
 
     public Integer getId() {

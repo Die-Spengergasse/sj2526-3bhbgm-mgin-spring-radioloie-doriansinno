@@ -12,17 +12,10 @@ public class Patient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
-    // Sozialversicherungsnummer
     private String svnr;
-
     private String firstName;
     private String lastName;
-
-    // Geschlecht (z.B. M/W/D)
     private String gender;
-
-    // Geburtsdatum
     private LocalDate birth;
 
     public Integer getId() {
@@ -69,7 +62,6 @@ public class Patient {
         this.birth = birth;
     }
 
-    // Hilfsgetter für Anzeige
     public String getFullName() {
         String fn = firstName != null ? firstName : "";
         String ln = lastName != null ? lastName : "";
