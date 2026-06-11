@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de" xmlns:th="http://www.w3.org/1999/html">
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Reservierung erfassen</title>
@@ -8,48 +8,65 @@
 <body>
 <div class="container">
     <h2>Neue Reservierung</h2>
-    <div th:if="${#fields.hasGlobalErrors()}" class="alert alert-danger" th:text="${#fields.globalErrors()[0]}"></div>
+
+    <div th:if="${#lists.isEmpty(patients)}" class="alert alert-warning">
+        Es ist noch kein Patient registriert. Bitte zuerst einen Patienten anlegen.
+    </div>
+
     <form th:action="@{/reservation/add}" th:object="${reservationForm}" method="post">
+        <div th:if="${#fields.hasAnyErrors()}" class="alert alert-danger">
+            <div th:each="err : ${#fields.allErrors()}" th:text="${err}"></div>
+        </div>
+
         <div class="form-group">
-            <label>Patient</label>
-            <select th:field="*{patientId}" class="form-control" required>
-                <option value="">Bitte wählen</option>
+            <label for="patientId">Patient</label>
+            <select id="patientId" th:field="*{patientId}" class="form-control" required>
+                <option value="">Bitte w&auml;hlen</option>
                 <option th:each="p : ${patients}" th:value="${p.id}" th:text="${p.fullName + ' (' + p.svnr + ')'}"></option>
             </select>
         </div>
+
         <div class="form-group">
-            <label>Gerät</label>
-            <select th:field="*{deviceId}" class="form-control" required>
-                <option value="">Bitte wählen</option>
+            <label for="deviceId">Ger&auml;t</label>
+            <select id="deviceId" th:field="*{deviceId}" class="form-control" required>
+                <option value="">Bitte w&auml;hlen</option>
                 <option th:each="d : ${devices}" th:value="${d.id}" th:text="${d.name + ' - ' + d.type + ' (' + d.location + ')'}"></option>
             </select>
         </div>
+
         <div class="form-group">
-            <label>Datum</label>
-            <input type="date" th:field="*{date}" class="form-control" required>
+            <label for="date">Datum</label>
+            <input id="date" type="date" th:field="*{date}" class="form-control" required>
         </div>
+
         <div class="form-group">
-            <label>Startzeit</label>
-            <input type="time" th:field="*{startTime}" class="form-control" required>
+            <label for="startTime">Startzeit</label>
+            <input id="startTime" type="time" th:field="*{startTime}" class="form-control" required>
         </div>
+
         <div class="form-group">
-            <label>Endzeit</label>
-            <input type="time" th:field="*{endTime}" class="form-control" required>
+            <label for="endTime">Endzeit</label>
+            <input id="endTime" type="time" th:field="*{endTime}" class="form-control" required>
         </div>
-        <div class="form-group">
-            <label>Körperregion</label>
-            <select th:field="*{bodyRegion}" class="form-control">
-                <option value="">Bitte wählen</option>
-                <option th:each="br : ${bodyRegions}" th:value="${br}" th:text="${br}"></option>
+
+        <div class="form-group" th:classappend="${#fields.hasErrors('bodyRegion')} ? 'has-error'">
+            <label for="bodyRegion">K&ouml;rperregion</label>
+            <select id="bodyRegion" th:field="*{bodyRegion}" class="form-control" required>
+                <option value="">Bitte w&auml;hlen</option>
+                <option th:each="region : ${bodyRegions}" th:value="${region}" th:text="${region}"></option>
             </select>
+            <span class="help-block" th:if="${#fields.hasErrors('bodyRegion')}" th:errors="*{bodyRegion}"></span>
         </div>
+
         <div class="form-group">
-            <label>Kommentar</label>
-            <textarea th:field="*{comment}" class="form-control" rows="3" placeholder="Zusätzliche Hinweise"></textarea>
+            <label for="comment">Kommentar</label>
+            <textarea id="comment" th:field="*{comment}" class="form-control" rows="3" placeholder="Zus&auml;tzliche Hinweise"></textarea>
         </div>
+
         <div class="form-group">
-            <button type="submit" class="btn btn-primary">Speichern</button>
-            <a href="/device/list" class="btn btn-default">Abbrechen</a>
+            <button type="submit" class="btn btn-primary" th:disabled="${#lists.isEmpty(patients)}">Speichern</button>
+            <a th:href="@{/patient/add}" class="btn btn-default">Patient registrieren</a>
+            <a th:href="@{/device/list}" class="btn btn-default">Abbrechen</a>
         </div>
     </form>
 </div>

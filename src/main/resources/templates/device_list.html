@@ -1,14 +1,18 @@
 <!DOCTYPE html>
-<html lang="de" xmlns:th="http://www.w3.org/1999/html">
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Geräteliste</title>
+    <title>Ger&auml;teliste</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 </head>
 <body>
 <div class="container">
-    <h2>Geräte</h2>
-    <p><a class="btn btn-primary" href="/reservation/add">Reservierung erfassen</a></p>
+    <h2>Ger&auml;te</h2>
+    <p>
+        <a class="btn btn-primary" th:href="@{/reservation/add}">Reservierung erfassen</a>
+        <a class="btn btn-default" th:href="@{/}">Zur Startseite</a>
+    </p>
+
     <table class="table table-striped">
         <thead>
         <tr>
@@ -26,12 +30,11 @@
             <td th:text="${d.type}"></td>
             <td th:text="${d.location}"></td>
             <td>
-                <a th:href="@{'/reservation/list/' + ${d.id}}">Liste anzeigen</a>
+                <a th:href="@{/reservation/list/{id}(id=${d.id})}">Liste anzeigen</a>
             </td>
         </tr>
         </tbody>
     </table>
-    <p><a href="/" class="btn btn-default">Zurück</a></p>
 </div>
 </body>
 </html>

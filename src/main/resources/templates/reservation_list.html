@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de" xmlns:th="http://www.w3.org/1999/html">
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Reservierungen</title>
@@ -7,17 +7,18 @@
 </head>
 <body>
 <div class="container">
-    <h2>Reservierungen für Gerät</h2>
+    <h2>Reservierungen f&uuml;r Ger&auml;t</h2>
+
     <div class="panel panel-default" th:if="${device}">
-        <div class="panel-heading" th:text="${device.name} + ' - ' + ${device.type}"></div>
+        <div class="panel-heading" th:text="${device.name + ' - ' + device.type}"></div>
         <div class="panel-body">
             <p><strong>Standort:</strong> <span th:text="${device.location}"></span></p>
         </div>
     </div>
 
     <p>
-        <a class="btn btn-primary" href="/reservation/add">Neue Reservierung</a>
-        <a class="btn btn-default" href="/device/list">Zur Geräteliste</a>
+        <a class="btn btn-primary" th:href="@{/reservation/add}">Neue Reservierung</a>
+        <a class="btn btn-default" th:href="@{/device/list}">Zur Ger&auml;teliste</a>
     </p>
 
     <table class="table table-striped">
@@ -27,16 +28,19 @@
             <th>Start</th>
             <th>Ende</th>
             <th>Patient</th>
-            <th>Körperregion</th>
+            <th>K&ouml;rperregion</th>
             <th>Kommentar</th>
         </tr>
         </thead>
         <tbody>
+        <tr th:if="${#lists.isEmpty(reservations)}">
+            <td colspan="6">F&uuml;r dieses Ger&auml;t gibt es noch keine Reservierungen.</td>
+        </tr>
         <tr th:each="r : ${reservations}">
             <td th:text="${#temporals.format(r.startDateTime, 'dd.MM.yyyy')}"></td>
             <td th:text="${#temporals.format(r.startDateTime, 'HH:mm')}"></td>
             <td th:text="${#temporals.format(r.endDateTime, 'HH:mm')}"></td>
-            <td th:text="${r.patient.fullName}"></td>
+            <td th:text="${r.patient.fullName + ' (' + r.patient.svnr + ')'}"></td>
             <td th:text="${r.bodyRegion}"></td>
             <td th:text="${r.comment}"></td>
         </tr>
